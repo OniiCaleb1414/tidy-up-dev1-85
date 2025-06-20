@@ -47,6 +47,16 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50">
       <Navbar />
       
+      {/* Beta Banner */}
+      <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-center py-3">
+        <p className="text-sm">
+          🚀 CleanBnb is launching soon! 
+          <Link to="/early-tester" className="underline ml-2 font-semibold hover:text-purple-200">
+            Join our beta program for exclusive benefits
+          </Link>
+        </p>
+      </div>
+      
       {/* Hero Section */}
       <section className="relative py-20 px-4">
         <div className="container mx-auto text-center">
@@ -61,11 +71,11 @@ const Index = () => {
             at your fingertips, just like booking your next stay.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700">
-              <Link to="/browse">Browse Maids</Link>
+            <Button asChild size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+              <Link to="/early-tester">Join Beta Program</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-2 border-teal-600 text-teal-600 hover:bg-teal-50">
-              <Link to="/signup">Become a Maid</Link>
+              <Link to="/browse">Browse Maids</Link>
             </Button>
           </div>
         </div>
@@ -125,9 +135,14 @@ const Index = () => {
           <p className="text-xl mb-8 opacity-90">
             Join thousands of satisfied customers who trust CleanBnb for their cleaning needs.
           </p>
-          <Button asChild size="lg" variant="secondary">
-            <Link to="/browse">Book Your First Cleaning</Link>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="bg-purple-600 hover:bg-purple-700">
+              <Link to="/early-tester">Join Beta Program</Link>
+            </Button>
+            <Button asChild size="lg" variant="secondary">
+              <Link to="/browse">Book Your First Cleaning</Link>
+            </Button>
+          </div>
         </div>
       </section>
     </div>

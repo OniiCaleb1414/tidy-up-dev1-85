@@ -10,6 +10,7 @@ import MaidProfile from "./pages/MaidProfile";
 import Booking from "./pages/Booking";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import EarlyTester from "./pages/EarlyTester";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/book/:id" element={<Booking />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/early-tester" element={<EarlyTester />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
