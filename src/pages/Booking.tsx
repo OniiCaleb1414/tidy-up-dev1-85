@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -33,7 +32,8 @@ const timeSlots = [
 const Booking = () => {
   const { id } = useParams();
   const { toast } = useToast();
-  const maid = maidData[id as keyof typeof maidData] || maidData[1];
+  const maidId = parseInt(id || '1', 10);
+  const maid = maidData[maidId as keyof typeof maidData] || maidData[1];
   
   const [date, setDate] = useState<Date>();
   const [time, setTime] = useState("");

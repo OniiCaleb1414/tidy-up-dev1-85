@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -52,7 +51,8 @@ const reviews = [
 
 const MaidProfile = () => {
   const { id } = useParams();
-  const maid = maidData[id as keyof typeof maidData] || maidData[1];
+  const maidId = parseInt(id || '1', 10);
+  const maid = maidData[maidId as keyof typeof maidData] || maidData[1];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50">
