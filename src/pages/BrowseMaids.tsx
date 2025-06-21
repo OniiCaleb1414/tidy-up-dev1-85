@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, Play } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import MaidCard from "@/components/MaidCard";
 
@@ -99,10 +99,20 @@ const BrowseMaids = () => {
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50">
       <Navbar />
       
+      {/* Demo Banner */}
+      <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-center py-4">
+        <div className="flex items-center justify-center space-x-2">
+          <Play className="h-5 w-5" />
+          <p className="text-sm font-medium">
+            🎮 Interactive Demo - Try searching, filtering, and booking a cleaning service!
+          </p>
+        </div>
+      </div>
+      
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Browse Cleaning Professionals</h1>
-          <p className="text-lg text-gray-600">Find the perfect maid for your cleaning needs</p>
+          <p className="text-lg text-gray-600">Find the perfect maid for your cleaning needs - Click on any profile to view details and book!</p>
         </div>
 
         {/* Search and Filters */}
