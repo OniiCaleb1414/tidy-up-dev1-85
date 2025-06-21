@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,10 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link } from "react-router-dom";
-import { Mail, Lock, User, ArrowLeft } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Mail, Lock, User, ArrowLeft, Phone, MapPin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Signup = () => {
   const [customerData, setCustomerData] = useState({
@@ -30,6 +30,8 @@ const Signup = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
   const handleCustomerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,16 +57,32 @@ const Signup = () => {
     setIsSubmitting(true);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const { error } = await signUp(
+        customerData.email,
+        customerData.password,
+        {
+          full_name: customerData.name,
+          user_type: 'customer'
+        }
+      );
       
-      toast({
-        title: "Account Created!",
-        description: "Welcome to CleanBnb! You can now start booking cleaning services.",
-      });
+      if (error) {
+        toast({
+          title: "Signup Failed",
+          description: error.message || "There was an error creating your account.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Account Created!",
+          description: "Welcome to CleanBnb! Please check your email to verify your account.",
+        });
+        navigate("/dashboard");
+      }
     } catch (error) {
       toast({
         title: "Signup Failed",
-        description: "There was an error creating your account. Please try again.",
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -96,16 +114,34 @@ const Signup = () => {
     setIsSubmitting(true);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const { error } = await signUp(
+        maidData.email,
+        maidData.password,
+        {
+          full_name: maidData.name,
+          user_type: 'maid',
+          phone: maidData.phone,
+          location: maidData.location
+        }
+      );
       
-      toast({
-        title: "Application Submitted!",
-        description: "Your maid application has been submitted for review. We'll contact you within 24 hours.",
-      });
+      if (error) {
+        toast({
+          title: "Application Failed",
+          description: error.message || "There was an error submitting your application.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Application Submitted!",
+          description: "Your maid application has been submitted! Please check your email to verify your account.",
+        });
+        navigate("/dashboard");
+      }
     } catch (error) {
       toast({
         title: "Application Failed",
-        description: "There was an error submitting your application. Please try again.",
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -151,6 +187,7 @@ const Signup = () => {
                           value={customerData.name}
                           onChange={(e) => setCustomerData({...customerData, name: e.target.value})}
                           className="pl-10"
+                          required
                         />
                       </div>
                     </div>
@@ -166,6 +203,7 @@ const Signup = () => {
                           value={customerData.email}
                           onChange={(e) => setCustomerData({...customerData, email: e.target.value})}
                           className="pl-10"
+                          required
                         />
                       </div>
                     </div>
@@ -181,6 +219,7 @@ const Signup = () => {
                           value={customerData.password}
                           onChange={(e) => setCustomerData({...customerData, password: e.target.value})}
                           className="pl-10"
+                          required
                         />
                       </div>
                     </div>
@@ -196,6 +235,7 @@ const Signup = () => {
                           value={customerData.confirmPassword}
                           onChange={(e) => setCustomerData({...customerData, confirmPassword: e.target.value})}
                           className="pl-10"
+                          required
                         />
                       </div>
                     </div>
@@ -222,6 +262,7 @@ const Signup = () => {
                           value={maidData.name}
                           onChange={(e) => setMaidData({...maidData, name: e.target.value})}
                           className="pl-10"
+                          required
                         />
                       </div>
                     </div>
@@ -237,29 +278,40 @@ const Signup = () => {
                           value={maidData.email}
                           onChange={(e) => setMaidData({...maidData, email: e.target.value})}
                           className="pl-10"
+                          required
                         />
                       </div>
                     </div>
 
                     <div>
                       <Label htmlFor="maid-phone">Phone Number</Label>
-                      <Input
-                        id="maid-phone"
-                        type="tel"
-                        placeholder="Enter your phone number"
-                        value={maidData.phone}
-                        onChange={(e) => setMaidData({...maidData, phone: e.target.value})}
-                      />
+                      <div className="relative mt-1">
+                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <Input
+                          id="maid-phone"
+                          type="tel"
+                          placeholder="Enter your phone number"
+                          value={maidData.phone}
+                          onChange={(e) => setMaidData({...maidData, phone: e.target.value})}
+                          className="pl-10"
+                          required
+                        />
+                      </div>
                     </div>
 
                     <div>
                       <Label htmlFor="maid-location">Service Area</Label>
-                      <Input
-                        id="maid-location"
-                        placeholder="e.g., Downtown, Westside"
-                        value={maidData.location}
-                        onChange={(e) => setMaidData({...maidData, location: e.target.value})}
-                      />
+                      <div className="relative mt-1">
+                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                        <Input
+                          id="maid-location"
+                          placeholder="e.g., Downtown, Westside"
+                          value={maidData.location}
+                          onChange={(e) => setMaidData({...maidData, location: e.target.value})}
+                          className="pl-10"
+                          required
+                        />
+                      </div>
                     </div>
 
                     <div>
@@ -273,6 +325,7 @@ const Signup = () => {
                           value={maidData.password}
                           onChange={(e) => setMaidData({...maidData, password: e.target.value})}
                           className="pl-10"
+                          required
                         />
                       </div>
                     </div>
@@ -288,6 +341,7 @@ const Signup = () => {
                           value={maidData.confirmPassword}
                           onChange={(e) => setMaidData({...maidData, confirmPassword: e.target.value})}
                           className="pl-10"
+                          required
                         />
                       </div>
                     </div>
@@ -305,16 +359,7 @@ const Signup = () => {
               
               <Separator className="my-6" />
 
-              <div className="space-y-3">
-                <Button variant="outline" className="w-full">
-                  Continue with Google
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Continue with Facebook
-                </Button>
-              </div>
-
-              <div className="text-center text-sm text-gray-600 mt-6">
+              <div className="text-center text-sm text-gray-600">
                 Already have an account?{" "}
                 <Link to="/login" className="text-teal-600 hover:text-teal-700 font-medium">
                   Sign in
