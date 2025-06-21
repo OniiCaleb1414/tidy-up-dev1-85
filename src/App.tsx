@@ -10,6 +10,7 @@ import MaidProfile from "./pages/MaidProfile";
 import Booking from "./pages/Booking";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import BecomeMaid from "./pages/BecomeMaid";
 import EarlyTester from "./pages/EarlyTester";
 import NotFound from "./pages/NotFound";
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/book/:id" element={<Booking />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/become-maid" element={<BecomeMaid />} />
           <Route path="/early-tester" element={<EarlyTester />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
